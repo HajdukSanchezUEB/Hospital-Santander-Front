@@ -28,10 +28,10 @@ export class CalendarComponent implements OnInit {
         horizontalPosition: 'center',
         verticalPosition: 'bottom',
         duration: 5000, // Duration in milliseconds
-        panelClass: ["snack"] // Styles
+        panelClass: ["snack", "snack--success"] // Styles
       });
       this.loading = false; // Hide the loader
-    }, 2000);
+    }, 1000);
   }
 
 }

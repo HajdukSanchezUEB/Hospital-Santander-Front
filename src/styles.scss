@@ -10,6 +10,17 @@ body {
 }
 
 .snack {
-  background: rgb(65, 180, 15);
-  color: white;
+  border: 1.5px solid transparent;
+
+  &--success {
+    border-color: #41b40f;
+    color: #41b40f;
+    background: rgba(65, 180, 15, 0.169);
+  }
+
+  &--error {
+    border-color: #ff3333;
+    color: #ff3333;
+    background: rgba(255, 51, 51, 0.169);
+  }
 }
