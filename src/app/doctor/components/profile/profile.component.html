@@ -7,18 +7,20 @@
           <img class="Profile__image" src="https://www.cccd.edu/_assets/images/Departments/NoProfile.png" alt="Profile picture">
         </div>
         <div class="Profile__info">
-          <h2>Dr. {{doctor.nombres | titlecase}} {{doctor.apellidos | titlecase}}</h2>
+          <h1>Dr. {{doctor.nombres | titlecase}} {{doctor.apellidos | titlecase}}</h1>
           <div class="Profile__info--work">
             <h3>Work</h3>
             <p>Santander Hospital</p>
-            <span>Bogota, Colombia</span>
+            <i>
+              <h5>{{consultingRoom.id}} | {{consultingRoom.nombre | uppercase}}</h5>
+            </i>
           </div>
           <div class="Profile__info--speciality">
-            <h3>Specialty</h3>
-            <mat-chip-list class="example-chip" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)">
+            <h3>Specialties</h3>
+            <mat-chip-list class="example-chip" cdkDropList cdkDropListOrientation="horizontal">
               <div class="list">
-                <mat-chip class="example-box" cdkDrag *ngFor="let vegetable of vegetables">
-                  {{vegetable.name}}
+                <mat-chip class="example-box" *ngFor="let specialty of specialties" key={{specialty.id}}>
+                  {{specialty.nombre}}
                 </mat-chip>
               </div>
             </mat-chip-list>

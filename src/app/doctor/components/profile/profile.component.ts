@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { DoctorService } from 'src/app/core/services/doctor/doctor.service';
 import { User } from 'src/app/interfaces/user';
+import { Specialty } from 'src/app/interfaces/specialty';
+import { Consulting } from 'src/app/interfaces/consulting';
+import { WorkData } from 'src/app/interfaces/work-data';
 
 export interface Vegetable {
   name: string;
@@ -13,8 +15,9 @@ export interface Vegetable {
 })
 export class ProfileComponent implements OnInit {
 
-  private USERNAME: string = 'znuscha0';
-
+  // Doctor ID
+  private id: number = 0
+  // Doctor Data
   public doctor: User = {
     id: 0,
     alias: '',
@@ -22,18 +25,12 @@ export class ProfileComponent implements OnInit {
     apellidos: '',
     password: ''
   }
-
-  vegetables: Vegetable[] = [
-    { name: 'apple' },
-    { name: 'banana' },
-    { name: 'strawberry' },
-    { name: 'orange' },
-    { name: 'kiwi' },
-    { name: 'cherry' },
-  ];
-
-  drop(event: CdkDragDrop<Vegetable[]>) {
-    moveItemInArray(this.vegetables, event.previousIndex, event.currentIndex);
+  // Doctor specialties
+  public specialties: Specialty[] = []
+  // Doctor consulting room
+  public consultingRoom: Consulting = {
+    id: 0,
+    nombre: 'string'
   }
 
   constructor(
@@ -44,10 +41,22 @@ export class ProfileComponent implements OnInit {
     this.getUserInfo();
   }
 
+  // We get the user information
   private getUserInfo() {
-    this._doctorService.getUserByUserName(this.USERNAME)
+    this._doctorService.getUserByUserName()
       .subscribe((data: User) => {
         this.doctor = data;
+        this.id = data.id;
+        this.getWorkData(this.id.toString());
+      });
+  }
+
+  // We get the specialties for the doctor
+  private getWorkData(id: string) {
+    this._doctorService.getSpecialtiesById(id)
+      .subscribe((data: WorkData) => {
+        this.specialties = data.especialidades; // We set the specialties of the doctor
+        this.consultingRoom = data.consultorioAsignado; // We set the consulting room data
       })
   }
 
