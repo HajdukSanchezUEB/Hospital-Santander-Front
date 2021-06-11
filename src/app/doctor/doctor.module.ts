@@ -26,7 +26,7 @@ import { ScheduleModule, RecurrenceEditorModule } from '@syncfusion/ej2-angular-
     FawesomeModule,
     ScheduleModule,
     RecurrenceEditorModule,
-    LoaderModule
+    LoaderModule,
   ],
 })
 export class DoctorModule { }

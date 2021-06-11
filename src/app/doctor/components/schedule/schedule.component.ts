@@ -23,6 +23,8 @@ export class ScheduleComponent implements OnInit {
   }
 
   onEventRendered(args: EventRenderedArgs): void {
+    // TODO: Agregar ID doctor al arreglo de agenda
+
     const { Id, Subject, StartTime, EndTime } = args.data;
     const actualDate = new Date().getDate();
     const dateSelected = StartTime.getDate();
@@ -40,6 +42,8 @@ export class ScheduleComponent implements OnInit {
       // this.showMessage('The schedule cannot be one day before the current one, or current one');
       console.log(Id);
     }
+    console.log(this.agendas);
+
   }
 
   // Message for schedule
