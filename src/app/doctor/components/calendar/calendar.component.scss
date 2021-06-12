@@ -1,8 +1,28 @@
-.danger {
-  color: #ff3030;
+$color-alert: #ff3030;
+$color-danger: #ffd43b;
+
+.message {
   font-weight: 500;
 
-  &__message {
+  & span {
     margin-left: 10px;
+  }
+
+  &--danger {
+    color: $color-alert;
+  }
+
+  &--alter {
+    color: $color-danger;
+    margin-left: 10px;
+  }
+}
+
+.icon {
+  &--danger {
+    color: $color-alert;
+  }
+  &--alter {
+    color: $color-danger;
   }
 }

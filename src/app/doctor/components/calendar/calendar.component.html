@@ -1,10 +1,14 @@
 <h1>Calendar</h1>
-<app-schedule [agenda]="DBSchedule"></app-schedule>
+<app-schedule [isReadOnly]="isReadOnly" [agenda]="DBSchedule"></app-schedule>
 <br>
-<h5 class="danger">
-  <fa-icon [icon]="dangerIcon"></fa-icon>
-  <span class="danger__message">Once you save your agenda, you <b><i>won't</i></b> be able to edit it.</span>
+<h5 class="message" *ngIf="!isReadOnly">
+  <fa-icon [icon]="dangerIcon" class="icon icon--danger"></fa-icon>
+  <span class="message--danger">Once you save your agenda, you <b>won't</b> be able to edit it.</span>
 </h5>
-<button mat-stroked-button color="warn" (click)="openSnackBar()">Book schedule</button>
+<h5 class="message" *ngIf="isReadOnly">
+  <fa-icon [icon]="alterIcon" class="icon icon--alter"></fa-icon>
+  <span class="message--alter">You <b>already added</b> your month calendar, you're not allowed to change it.</span>
+</h5>
+<button mat-stroked-button color="primary" [disabled]="isReadOnly" (click)="openSnackBar()">Book schedule</button>
 <br>
 <app-loader *ngIf="loading"></app-loader>

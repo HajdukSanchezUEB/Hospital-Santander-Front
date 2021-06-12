@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
+import { faExclamationCircle, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { AgendasService } from 'src/app/core/services/agendas/agendas.service';
 import { Agenda } from 'src/app/interfaces/agenda';
 import { Schedule } from 'src/app/interfaces/schedule';
@@ -13,6 +13,9 @@ export class CalendarComponent implements OnInit {
 
   // Icons
   dangerIcon = faExclamationCircle;
+  alterIcon = faExclamationTriangle;
+
+  isReadOnly: boolean = false; // For block or unlock the calendar
 
   public loading: boolean = false;
 
@@ -46,7 +49,7 @@ export class CalendarComponent implements OnInit {
       EndTime: new Date(data.horarioFin),
       IsAllDay: false,
       IsBlock: false,
-      IsReadonly: false,
+      IsReadonly: true,
     }
     this.DBSchedule.push(schedule);
   }
@@ -62,6 +65,7 @@ export class CalendarComponent implements OnInit {
         panelClass: ["snack", "snack--success"] // Styles
       });
       this.loading = false; // Hide the loader
+      this.isReadOnly = true; // Block the calendar
     }, 1000);
   }
 
