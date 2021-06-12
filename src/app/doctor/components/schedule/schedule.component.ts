@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { AgendaService, DayService, EventRenderedArgs, MonthAgendaService, MonthService, TimelineMonthService, TimelineViewsService, View, WeekService, WorkWeekService } from '@syncfusion/ej2-angular-schedule';
+import { Component, Input, OnInit } from '@angular/core';
+import { AgendaService, DayService, EventRenderedArgs, EventSettingsModel, MonthAgendaService, MonthService, TimelineMonthService, TimelineViewsService, View, WeekService, WorkWeekService } from '@syncfusion/ej2-angular-schedule';
+import { AgendasService } from 'src/app/core/services/agendas/agendas.service';
 import { Agenda } from 'src/app/interfaces/agenda';
+import { Schedule } from 'src/app/interfaces/schedule';
 
 @Component({
   selector: 'app-schedule',
@@ -11,49 +12,57 @@ import { Agenda } from 'src/app/interfaces/agenda';
 })
 export class ScheduleComponent implements OnInit {
 
-  public currentView: View = 'Month';
+  // Calendar initial data and config
+  isReadOnly: boolean = false; // Lock or unlock the calendar
+  public currentView: View = 'Month'; // Default view of the calendar
+  @Input() agenda: any = []; // Object with the calendar data
+  public eventSettings: EventSettingsModel = {
+    dataSource: this.agenda
+  }
+
   // Array of month agendas
   private agendas: Agenda[] = [];
 
-  constructor(
-    private _snackBar: MatSnackBar
-  ) { }
+  constructor() { }
 
   ngOnInit(): void {
+    this.eventSettings.dataSource = this.agenda; // Set the data into the calendar
   }
 
+  // Event when the user add a schedule
   onEventRendered(args: EventRenderedArgs): void {
-    // TODO: Agregar ID doctor al arreglo de agenda
+    // console.log(args);
+    const { StartTime, data } = args.data;
+    const schedulesAgenda = [] // Array with schedule for the agenda
 
-    const { Id, Subject, StartTime, EndTime } = args.data;
-    const actualDate = new Date().getDate();
-    const dateSelected = StartTime.getDate();
-    if (dateSelected > actualDate) {
-      // Object that is going to be add
-      const newSchedule = {
-        Id,
-        Subject,
-        StartTime,
-        EndTime
-      }
-      const hashAgenda = this.agendas.filter((schedule) => schedule.Id === Id); // Search the agenda into the actual list
-      hashAgenda.length > 0 ? this.agendas = [...this.agendas] : this.agendas = [...this.agendas, newSchedule]; // If the agenda already exist into the list, does not add it
-    } else {
-      // this.showMessage('The schedule cannot be one day before the current one, or current one');
-      console.log(Id);
+    // Schedule for the agenda
+    const scheduleAgenda: Schedule = {
+      id: data.id,
+      horarioInicio: this.formatDate(2, data.StartTime),
+      horarioFin: this.formatDate(2, data.EndTime)
     }
-    console.log(this.agendas);
 
+    // const
+
+    // const agendaNew: Agenda = {
+    //   // Id agenda
+    //   id: this.agendas.length + 1,
+    //   // Date of the agenda
+    //   fecha: this.formatDate(1, StartTime),
+    //   horario:
+    // }
   }
 
-  // Message for schedule
-  private showMessage(text: string) {
-    this._snackBar.open(text, '', {
-      horizontalPosition: 'center',
-      verticalPosition: 'bottom',
-      duration: 5000, // Duration in milliseconds
-      panelClass: ["snack", "snack--error"] // Styles
-    });
+  // Method to format date into a specific form
+  private formatDate(type: number, date: Date): string {
+    switch (type) {
+      case 1: // YYYY-MM-DD | 2021-12-31
+        return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+      case 2: // 2022-02-01T00:00:00 | 2021-12-31T12:10:09
+        return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}T${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+      default:
+        return '';
+    }
   }
 
 }
